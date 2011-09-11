@@ -1,87 +1,90 @@
 <?php
 
-class database {
-	public function __construct() {
+/* Database class */
+class Database {
+	private $database = "monologuedb";
+	private $tableName = "monologue";
+	private $monologues = array();
+
+	// Constructor.
+	public function __construct($server, $username, $password) {
+		// Initialize mysql
+		$con = mysql_connect($server, $username, $password);
+		if (!$con) die ('Could not connect: ' . mysql_error());
+		mysql_select_db($this->database,$con);
 		
-	}	
+		// Get contents
+		$query = "SELECT * FROM " . $this->tableName;
+		$result = mysql_query($query,$con);
+		
+		// Organize into objects
+		while($row = mysql_fetch_array($result)) {
+			$this->monologues[] = new Monologue($row);
+		}
+	}
+	
+	public function rowsForSearch() {
+		$goodMonologues = $this->monologues;
+		if(func_num_args() > 0) {
+			for($i = 0; $i < func_num_args(); $i++) {
+				$argument = func_get_arg($i);
+				
+				//debug
+				echo $i."<br>";
+				echo $argument;
+				
+				if(is_string($argument)) {
+					$goodMonologues = $this->monologuesWithString($goodMonologues, $argument);
+				}
+			}
+			return $goodMonologues;
+		}
+		else {
+			echo "Nothing Searched.";
+		}
+	}
+	
+	private function monologuesWithString($monologues, $string) {
+		$goodMonologues = array();
+		for($i = 0; $i<count($monologues); $i++) {
+			if($monologues[i]->inMonologue($string)) $goodMonologues[] = $monologues[i];
+		}
+	}
 }
 
-/* Monologue class. Elements of a monologue object are:
-		-id
-		-classifiedDate
-		-reader
-		-tone
-		-age
-		-writtenInPeriod
-		-quality
-		-character
-		-profession
-		-setting
-		-length
-		-source
-		-title
-		-author
-		-translation
-		-setup
-		-monologue
-		
-	You initialize a monologue with these items in this order.
-	You can get one of these values by calling the get function with the name of the element.
-	*/
-	
 
-class monologue {
-	private $info;
+/* Monologue class */
+class Monologue {
+	private $attributes;
 	
-	public function __construct($id, 
-								$classifiedDate, 
-								$reader,
-								$gender,
-								$tone,
-								$age,
-								$writtenInPeriod,
-								$quality,
-								$character,
-								$profession,
-								$setting,
-								$length,
-								$source,
-								$title,
-								$author,
-								$translation,
-								$setup,
-								$monologue) {
-		$info = array("id" => $id,
-					  "classifiedDate" => $classifiedDate,
-					  "reader" => $reader,
-					  "gender" => $gender,
-					  "tone" => $tone,
-					  "age" => $age,
-					  "writtenInPeriod" => $writtenInPeriod,
-					  "quality" => $quality,
-					  "character" => $character,
-					  "profession" => $profession,
-					  "setting" => $setting,
-					  "length" => $length,
-					  "source" => $source,
-					  "title" => $title,
-					  "author" => $author,
-					  "translation" => $translation,
-					  "setup" => $setup,
-					  "monologue" => $monologue);
+	public function __construct($row) {
+		$this->attributes = $row;
 	}
 
-	// Get function. Enter string such as "id" to get that element of the monologue.
+
+	// Get element. Enter string such as "id" to get that element of the monologue.	
+	public function getElement($element) {
 	
-	public function get($element) {
-	
-		$return=$info[$element];
+		$return=$this->attributes[$element];
 		
 		if ($return === null) {
-  			throw new Exception('Element Doesn`t Exist!');
+  			die("Element Doesn't Exist!");
  		}
  		
  		return $return;
 	}
+	
+	public function inMonologue($string) {
+		if(in_array($string, $this->attributes)) {
+			echo $this->attributes['ID']."->YES";
+			return TRUE;
+		}
+		
+	} 
 }
+
+$myDatabase = new Database("127.0.0.1","root","sniggle");
+$mySearch = $myDatabase->rowsForSearch("testicle");
+echo count($mySearch);
+
 ?>
