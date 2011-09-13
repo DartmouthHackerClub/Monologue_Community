@@ -1,14 +1,14 @@
 <?php
-
 /* Database class */
 class Database {
 	// Database Variables. You need to set these.
 	// I tried to make these static but php doesn't like it.
-	private $database = "DATABASENAME";
+	private $database = "DATABASE";
 	private $tableName = "TABLENAME";
 	private $username = "USERNAME";
 	private $password = "PASSWORD";
-	private $server = "SERVER";
+	private $server = "127.0.0.1";
+	private $monologueRows = array();
 	
 	// Connection variable
 	private $con;
@@ -19,6 +19,17 @@ class Database {
 		$this->con = mysql_connect($this->server, $this->username, $this->password);
 		if (!$this->con) die ('Could not connect: ' . mysql_error());
 		mysql_select_db($this->database,$this->con);
+		
+		// Find what a monologue looks like
+		if($result = mysql_query("SHOW COLUMNS FROM ".$this->tableName, $this->con)) {
+			while($row = mysql_fetch_array($result)) {
+           		$this->monologueRows[] = $row['Field'];
+        	}
+        }
+        
+        foreach($this->monologueRows as $row) {
+        	echo "'".$row."'=>'a',<br>";
+        }
 	}
 	
 	// Search Function
@@ -61,53 +72,42 @@ class Database {
 			// Query database, store results in array
 			if($result = mysql_query($query, $this->con)) {
 				while($row = mysql_fetch_array($result)) {
-          	 		$this->monologues[] = new Monologue($row);
+          	 		$monologues[] = new Monologue($row);
         		}
-        		return $this->monologues;
+        		return $monologues;
         	}
 		}
 		else echo "Nothing Searched.";
 	}
-}
-
-
-/* Monologue class */
-class Monologue {
-	private $attributes;
 	
-	public function __construct($row) {
-		$this->attributes = $row;
+	// Add function
+	public function addMonologue($myMonologue) {
+		if(get_class($myMonologue)=="Monologue") {
+			$query = "INSERT INTO ".$this->tableName." VALUES (";
+			
+			//Values
+			$number = count($this->monologueRows);
+			$counter = 0;
+			foreach($this->monologueRows as $row) {
+				$query .= "'".$myMonologue->getElement($row)."'";
+				$counter++;
+				if($counter!=$number) $query .= ", ";
+			}
+			
+			$query .= ")";
+			
+			mysql_query($query,$this->con);
+		}
+		else die("Not a monologue");
 	}
-
-
-	// Get element. Enter string such as "id" to get that element of the monologue.	
-	public function getElement($element) {
 	
-		$return=$this->attributes[$element];
+	// Modify function
+	public function editMonologue($monologue) {
+		// Delete old monologue
+		$query = "DELETE FROM ".$this->tableName." WHERE ID=".$monologue->getElement("ID");
+		mysql_query($query, $this->con);
 		
-		if ($return === null) {
-  			die("Element Doesn't Exist!");
- 		}
- 		
- 		return $return;
-	}
-
-}
-
-// Make a new database, search it
-$myDatabase = new Database();
-$mySearch = $myDatabase->rowsForSearch("the", array("Gender"=>"G01", "WrittenInPeriod"=>"W04"), "it", "kristen dabrowski");
-
-
-// Print results, for testing purposes
-echo "<br><br><br>";
-echo "<b>Results:</b><br>";
-echo count($mySearch)." records found.";
-if(count($mySearch)) {
-	echo "They are:<br>";
-	foreach($mySearch as $result ) {
-		echo $result->getElement("Title")." by ".$result->getElement("Author")."<br>";
+		// Add new monologue
+		$this->addMonologue($monologue);
 	}
 }
-
-?>
