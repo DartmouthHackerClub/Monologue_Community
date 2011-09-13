@@ -1,2 +1,13 @@
+# os x noise
+.DS_Store
+profile
 
-index.html
+# thumbnails
+._*
+
+# files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# windows is creepy
+Thumbs.db
