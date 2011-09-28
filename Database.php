@@ -3,10 +3,10 @@
 class Database {
 	// Database Variables. You need to set these.
 	// I tried to make these static but php doesn't like it.
-	private $database = "DATABASE";
-	private $tableName = "TABLENAME";
-	private $username = "USERNAME";
-	private $password = "PASSWORD";
+	private $database = "monologuedb";
+	private $tableName = "monologue";
+	private $username = "root";
+	private $password = "sniggle";
 	private $server = "127.0.0.1";
 	private $monologueRows = array();
 	
@@ -25,10 +25,6 @@ class Database {
 			while($row = mysql_fetch_array($result)) {
            		$this->monologueRows[] = $row['Field'];
         	}
-        }
-        
-        foreach($this->monologueRows as $row) {
-        	echo "'".$row."'=>'a',<br>";
         }
 	}
 	

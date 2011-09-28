@@ -1,0 +1,39 @@
+A request will be much like an advanced search. User may request in many different fields excluding ID, monologue contents, etc.      
+
+The request system will look like:
+
+ID: ID of the request. User cannot request an ID, it will be added automatically.     
+AddedDate: The date of the request. Not user defined.
+Reader: Type of reader. User defined
+Gender: Gender of reader. User defined
+Tone: Tone of monologue. User defined
+Age: Age of reader. User defined.
+WrittenInPeriod: Date written. User defined.
+Quality: User defined
+Character: User defined
+Profession: User defined
+Setting: User defined     
+Dialect: User defined
+Length: User defined
+Source: User defined
+Title: User defined
+Author: User defined
+Playwright: User defined
+Translation: User defined
+Play: User defined                 
+Setup: User defined     
+Subjects: User defined
+Comments: Additional Comments. User defined
+User: Name or ID of user who added the request
+
+Many fields can be left NULL. ID and AddedDate are not left null and are not user defined.
+If anything is left out of the information provided, the comments field holds additional request comments.
+
+   
+
+Request Class:
+	- Variables:
+		-
+		 
+	- Methods:
+		
