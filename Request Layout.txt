@@ -29,11 +29,16 @@ User: Name or ID of user who added the request
 Many fields can be left NULL. ID and AddedDate are not left null and are not user defined.
 If anything is left out of the information provided, the comments field holds additional request comments.
 
-   
+For the time being, this database will only include reader, gender, tone, and age for simplicity purposes.
+Of course, it will also have ID and date added as those are given. User will also be added once the user
+system is completed.
 
-Request Class:
+
+Class Outline:
 	- Variables:
-		-
-		 
+	
 	- Methods:
+		- createRequestForm: Prints out a request form.
+		- addRequirement: Add a requirement to the request object.
+		- addRequest: add the request to the database 
 		
