@@ -16,7 +16,12 @@ class Request {
 				$argument = func_get_arg($i);
 				
 				if(is_string($argument)) {
-					
+					// Delimiter is a colon for now
+					$args = preg_split(":", $argument);
+					if(count($args)==2) {
+						$requirements[$args[0]] = $args[1];
+						echo($args[0]."=>".$args[1]);
+					}
 				}
 			}
 		}
