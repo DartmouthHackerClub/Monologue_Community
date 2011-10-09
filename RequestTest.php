@@ -1,6 +1,11 @@
 <?php
 include("Request.php");
 Request::createRequestForm();
-$myRequest = new Request();
-$myRequest->addRequirements("Title:Test", "Reader:You");
+if(count($_POST)>0) {
+	$myRequest = new Request();
+	foreach($_POST as $k=>$v) {
+		if($v != "null") $myRequest->addRequirements($k.":".$v);
+	}
+	$myRequest->whatAreTheRequirements();
+}
 ?>

@@ -16,9 +16,7 @@ class Database {
 	// Constructor.
 	public function __construct() {
 		// Initialize MySQL
-		$this->con = mysql_connect($this->server, $this->username, $this->password);
-		if (!$this->con) die ('Could not connect: ' . mysql_error());
-		mysql_select_db($this->database,$this->con);
+		$this->connectdb();
 		
 		// Find what a monologue looks like
 		if($result = mysql_query("SHOW COLUMNS FROM ".$this->tableName, $this->con)) {
@@ -26,6 +24,12 @@ class Database {
            		$this->monologueRows[] = $row['Field'];
         	}
         }
+	}
+	
+	private function connectdb() {
+		$this->con = mysql_connect($this->server, $this->username, $this->password);
+		if (!$this->con) die ('Could not connect: ' . mysql_error());
+		mysql_select_db($this->database,$this->con);
 	}
 	
 	// Search Function
