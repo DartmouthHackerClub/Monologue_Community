@@ -64,3 +64,6 @@ Special Features for Editors:
 
 
 Numbers in parentheses are references where there will be a critical connection between two parts of the site.
+
+Progress can be seen at:
+http://skmonologues.com/Monologue_Test/
