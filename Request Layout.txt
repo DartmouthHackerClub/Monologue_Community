@@ -36,9 +36,18 @@ system is completed.
 
 Class Outline:
 	- Variables:
-	
+		- SQL connection variable, as well as login parameters
+		- 
+		
 	- Methods:
 		- createRequestForm: Prints out a request form.
 		- addRequirement: Add a requirement to the request object.
 		- addRequest: add the request to the database 
-		
+		- (TEMP) whatAreTheRequirements: show the current requirements of the request. Debug purposes
+		- fillRequest: fill a request. This will test if the monologue is sufficient to fill the request too.
+			Either it can somehow find if there are enough similarities, or it will mark the request as potentially
+			filled and the initial requester will have to confirm that the request is filled.
+			
+With requests, some sort of AI system could potentially be implemented to test whether something fills a request, 
+whether a request being created has already been filled, etc. Perhaps moderators could do this instead, which would
+be much easier to program. ***Any thoughts on this?***

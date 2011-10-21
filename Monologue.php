@@ -19,6 +19,12 @@ class Monologue {
  		
  		return $return;
 	}
-
+	
+	public function printMonologue() {
+		echo "
+		<b>".$this->attributes['Title']." by ".$this->attributes['Author'].":</b>
+		<p>".$this->attributes['Monologue']."</p><br>
+		";
+	}
 }
 ?>

@@ -2,6 +2,7 @@
 // The request class. Handles monologue requests.
 class Request {
 
+	private $con;
 	private $requirements = array();
 	private $database = "monologuedb";
 	private $tableName = "request";
@@ -22,7 +23,7 @@ class Request {
 				if(is_string($argument)) {
 					// Delimiter is a colon for now
 					$args = preg_split("/:/", $argument);
-					if(count($args)==2) {
+					if(count($args)==2 && $args[0]!='type') {
 						$this->requirements[$args[0]] = $args[1];
 					}
 				}
@@ -32,7 +33,7 @@ class Request {
 	
 	public function whatAreTheRequirements() {
 		foreach($this->requirements as $k=>$v) {
-			echo $k." => ".$v."<br>";
+			echo $k." is ".$v."<br>";
 		}
 	}
 	
@@ -43,7 +44,20 @@ class Request {
 	}
 	
 	public function addRequest() {
+		$this->connectdb();
+		$query = "INSERT INTO ".$this->tableName." VALUES (NULL, ";
+			
+		//Values
+		$number = count($this->requirements);
+		$counter = 0;
+		foreach($this->requirements as $k=>$v) {
+			$query .= "'".$v."'";
+			$counter++;
+			if($counter!=$number) $query .= ", ";
+		}
+		$query .= ", CURRENT_TIMESTAMP)";
 		
+		mysql_query($query,$this->con);
 	}
 	
 	// This static method handles printing a request form. Right now it is

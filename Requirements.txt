@@ -1,0 +1,66 @@
+Monologue System:
+1. Search the community database of Monologues online
+	(done) a. Search by title, text of monologue, or author
+	(done) b. Search by category
+	c. Sort by title, category, date added, or author
+	(done) d. Click on monologue to view (2)
+	e. If the user is not satisfied with results, click a button to request a monologue (7)
+2. View a monologue online
+	a. See monologue title, author, text, and all category information
+	b. Click on author to view authorʼs profile page (4)
+	c. Logged in users can rate monologue and add comments
+	d. Share monologue by emailing or through various social networks
+3. Submit a monologue to add to the database
+	a. The author enters the monologue title, text, and any attributions
+	b. If the monologue is a response to a request, the monologue is added to the request page and the
+		requester is notified of the response
+	c. The monologue is: 
+		(done) added to the search index, (1) 
+	   	marked as requiring review by an editor (11)
+
+User System:
+4. View a userʼs profile page
+	a. See userʼs name, biography, photo, and preferred categories of monologues
+	b. Link to userʼs Facebook page, and possibly other social networks
+	c. Send a message to user (9)
+5. Edit profile and account information
+	a. Change email address, password, and notification preferences
+	b. Change information that appears on profile page (4)
+6. Sign in/Sign out/Register
+	a. User can sign in with Facebook email/password
+	b. User can sign in with Monologue Cloud email/password
+	c. User can create a new Monologue Cloud account with email, password
+	d. On first sign in, user is asked to update the information that appears on his profile page
+	e. New email addresses must be verified
+
+Request System:
+7. Request a monologue
+	a. Select:
+		 (done) desired categories, along with
+		 any other descriptive text that would help the author
+	b. Users that match the categories are notified
+8. Search requests for monologues
+	a. Search requests in the same manner that one would search for monologues
+	b. View most recent requests
+	c. View requests that fit the authorʼs preferred categories
+	d. Click on request to see a page showing request information, as well as all responses, and to
+		respond to the request by submitting a monologue
+
+Message System:
+9. Send a message to another user
+	a. Enter userʼs name and message to send
+10. View message inbox
+	a. See messages addresses to user, sorted by date
+
+Special Features for Editors:
+11. Review unreviewed monologues
+	a. See number of monologues left to review, and next monologue to review
+	b. See monologue title, text and categories
+	c. Choose whether to migrate the monologue to the selective database
+	d. Choose whether to remove the monologue completely from the site
+	e. Choose whether to block the author of the monologue
+12. Manage monologues
+	a. Edit all information regarding monologues when searching for monologues
+
+
+Numbers in parentheses are references where there will be a critical connection between two parts of the site.

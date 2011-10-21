@@ -4,7 +4,7 @@ include("Database.php");
 
 // Make a new database, search it
 $myDatabase = new Database();
-
+/*
 $myMonologue = new Monologue(array(
 'ID'=>'101',
 'MonoKey'=>'a',
@@ -38,22 +38,27 @@ $myMonologue = new Monologue(array(
 'Subjects'=>'a'));
 
 $myDatabase->addMonologue($myMonologue);
+*/
 
 $mySearch = $myDatabase->rowsForSearch("a");
 
 // Print results, for testing purposes
 echo "<br><br><br>\n";
 echo "<b>Results:</b><br>\n";
-echo count($mySearch)." records found. ";
+echo count($mySearch)." records found:<br><br>";
 if(count($mySearch)) {
 	echo "They are:\n<table border=1>";
 	echo "\n\t<tr>\n\t\t<td><b>Title</b></td>\n\t\t<td><b>Author</b></td>\n\t</tr><br>";
 	foreach($mySearch as $result ) {
-		echo "\n\t<tr>\n\t\t<td>".$result->getElement("Title")."</td>\n\t\t<td>".$result->getElement("Author")."</td>\n\t</tr><br>";
+		echo "\n\t<tr>\n\t\t<td><a href='view.php?id="
+		.$result->getElement("ID")."'>"
+		.$result->getElement("Title")."</a></td>\n\t\t<td>"
+		.$result->getElement("Author")."</td>\n\t</tr><br>";
+		//$result->printMonologue();
 	}
 	echo "\n</table>";
 }
-
+/*
 $myMonologue = new Monologue(array(
 'ID'=>'101',
 'MonoKey'=>'a',
@@ -102,5 +107,5 @@ if(count($myNewSearch)) {
 	}
 	echo "\n</table>";
 }
-
+*/
 ?>
