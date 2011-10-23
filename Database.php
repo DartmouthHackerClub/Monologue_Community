@@ -1,35 +1,23 @@
 <?php
+// Includes
+include('SQLConnection.php');
+
 /* Database class */
 class Database {
 	// Database Variables. You need to set these.
 	// I tried to make these static but php doesn't like it.
-	private $database = "monologuedb";
+
 	private $tableName = "monologue";
-	private $username = "root";
-	private $password = "sniggle";
-	private $server = "127.0.0.1";
 	private $monologueRows = array();
-	
-	// Connection variable
-	private $con;
 
 	// Constructor.
 	public function __construct() {
-		// Initialize MySQL
-		$this->connectdb();
-		
 		// Find what a monologue looks like
-		if($result = mysql_query("SHOW COLUMNS FROM ".$this->tableName, $this->con)) {
+		if($result = mysql_query("SHOW COLUMNS FROM ".$this->tableName, SQLConnection::connectdb())) {
 			while($row = mysql_fetch_array($result)) {
            		$this->monologueRows[] = $row['Field'];
         	}
         }
-	}
-	
-	private function connectdb() {
-		$this->con = mysql_connect($this->server, $this->username, $this->password);
-		if (!$this->con) die ('Could not connect: ' . mysql_error());
-		mysql_select_db($this->database,$this->con);
 	}
 	
 	// Search Function
@@ -70,7 +58,7 @@ class Database {
 			// echo $query;
 			
 			// Query database, store results in array
-			if($result = mysql_query($query, $this->con)) {
+			if($result = mysql_query($query, SQLConnection::connectdb())) {
 				while($row = mysql_fetch_array($result)) {
           	 		$monologues[] = new Monologue($row);
         		}
@@ -96,7 +84,7 @@ class Database {
 			
 			$query .= ")";
 			
-			mysql_query($query,$this->con);
+			mysql_query($query,SQLConnection::connectdb());
 		}
 		else die("Not a monologue");
 	}
@@ -105,7 +93,7 @@ class Database {
 	public function editMonologue($monologue) {
 		// Delete old monologue
 		$query = "DELETE FROM ".$this->tableName." WHERE ID=".$monologue->getElement("ID");
-		mysql_query($query, $this->con);
+		mysql_query($query, SQLConnection::connectdb());
 		
 		// Add new monologue
 		$this->addMonologue($monologue);

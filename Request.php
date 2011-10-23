@@ -1,14 +1,9 @@
 <?php
 // The request class. Handles monologue requests.
+include('SQLConnection.php');
 class Request {
-
-	private $con;
-	private $requirements = array();
-	private $database = "monologuedb";
 	private $tableName = "request";
-	private $username = "root";
-	private $password = "sniggle";
-	private $server = "127.0.0.1";
+	private $requirements = array();
 
 	public function __construct() {
 		// New request object has been created!
@@ -37,14 +32,7 @@ class Request {
 		}
 	}
 	
-	private function connectdb() {
-		$this->con = mysql_connect($this->server, $this->username, $this->password);
-		if (!$this->con) die ('Could not connect: ' . mysql_error());
-		mysql_select_db($this->database,$this->con);
-	}
-	
 	public function addRequest() {
-		$this->connectdb();
 		$query = "INSERT INTO ".$this->tableName." VALUES (NULL, ";
 			
 		//Values
@@ -56,8 +44,7 @@ class Request {
 			if($counter!=$number) $query .= ", ";
 		}
 		$query .= ", CURRENT_TIMESTAMP)";
-		
-		mysql_query($query,$this->con);
+		mysql_query($query,SQLConnection::connectdb());
 	}
 	
 	// This static method handles printing a request form. Right now it is
@@ -65,6 +52,26 @@ class Request {
 	// the future.
 	public static function createRequestForm() {
 		include('RequestForm.html');
+	}
+	
+	public static function listRequests() {
+		$query = "SELECT * FROM request";
+		echo "Current Requests:<br>
+		<table border=1>
+		<tr><td>ID</td><td>Reader</td><td>Gender</td><td>Tone</td><td>Age</td><td>Date</td></tr>";
+		if($result = mysql_query($query, SQLConnection::connectdb())) {
+			while($row = mysql_fetch_array($result)) {
+       	 		echo "<tr>";
+       	 		echo "<td>".$row['ID']."</td>";
+       	 		echo "<td>".$row['reader']."</td>";
+       	 		echo "<td>".$row['gender']."</td>";
+       	 		echo "<td>".$row['tone']."</td>";
+       	 		echo "<td>".$row['age']."</td>";
+       	 		echo "<td>".$row['date']."</td>";
+       	 		echo "</tr>";
+       		}
+        }
+        echo "</table><br><br>";
 	}
 }
 

@@ -17,7 +17,12 @@ else if($_POST['type']=='confirmrequest') {
 	$_SESSION['myRequest']->addRequest();
 	echo "Your request:<br><br>";
 	echo $_SESSION['myRequest']->whatAreTheRequirements();
-	echo "<br> has been processed. Thank you.";
+	echo "<br> has been processed. Thank you.<br>";
+	echo "<a href='RequestTest.php'>Return</a>";
+	
 }
-else Request::createRequestForm();
+else {
+	Request::listRequests();
+	Request::createRequestForm();
+}
 ?>
